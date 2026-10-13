@@ -50,11 +50,13 @@ instance _root_.TauCeti.QuadraticMap.instTopologicalSpaceSpecialOrthogonalGroupP
     TopologicalSpace (specialOrthogonalGroup Q) :=
   TopologicalSpace.induced (Q.specialOrthogonalToGeneralLinear) inferInstance
 
-/-- The coordinate inclusion of a special orthogonal group is a topological embedding. -/
+/-- The coordinate inclusion of a special orthogonal group is a topological embedding, for any
+decidable-equality instance on the coordinates. -/
 theorem _root_.TauCeti.QuadraticMap.isEmbedding_specialOrthogonalToGeneralLinear
-    (Q : QuadraticMap R (n → R) N) :
-    Topology.IsEmbedding (Q.specialOrthogonalToGeneralLinear) :=
-  (Q.specialOrthogonalToGeneralLinear_injective).isEmbedding_induced
+    [DecidableEq n] (Q : QuadraticMap R (n → R) N) :
+    Topology.IsEmbedding (Q.specialOrthogonalToGeneralLinear) := by
+  obtain rfl : ‹DecidableEq n› = Classical.decEq n := Subsingleton.elim _ _
+  exact (Q.specialOrthogonalToGeneralLinear_injective).isEmbedding_induced
 
 /-- A special orthogonal group in coordinates over a topological ring is a topological group. -/
 instance _root_.TauCeti.QuadraticMap.instIsTopologicalGroupSpecialOrthogonalGroupPi

@@ -120,25 +120,10 @@ noncomputable def realCliffordSpinToSpecialOrthogonalRange (n : ℕ) :
     have hprojection : Continuous
         ((QuadraticMap.specialOrthogonalToGeneralLinear
           (show QuadraticForm ℝ (Fin n → ℝ) from realCliffordForm n 0)).comp
-            (spinToSpecialOrthogonal (realCliffordForm n 0))) := by
-      classical
-      have h := (QuadraticMap.isEmbedding_specialOrthogonalToGeneralLinear
+            (spinToSpecialOrthogonal (realCliffordForm n 0))) :=
+      (QuadraticMap.isEmbedding_specialOrthogonalToGeneralLinear
           (realCliffordForm n 0)).continuous.comp
         (continuous_spinToSpecialOrthogonal_pi (realCliffordForm n 0))
-      -- The continuity theorem is elaborated with `Classical.decEq`, whereas this concrete
-      -- `Fin`-indexed target uses its canonical decidable-equality instance. The two resulting
-      -- coordinate inclusions are propositionally equal because decidable equality is subsingleton.
-      have hdec : Classical.decEq (Fin n) = instDecidableEqFin n := Subsingleton.elim _ _
-      change Continuous (fun x ↦
-        @QuadraticMap.specialOrthogonalToGeneralLinear ℝ inferInstance (Fin n) inferInstance
-          (Classical.decEq (Fin n)) ℝ inferInstance inferInstance (realCliffordForm n 0)
-          (spinToSpecialOrthogonal (realCliffordForm n 0) x)) at h
-      rw [hdec] at h
-      change Continuous (fun x ↦
-        @QuadraticMap.specialOrthogonalToGeneralLinear ℝ inferInstance (Fin n) inferInstance
-          (instDecidableEqFin n) ℝ inferInstance inferInstance (realCliffordForm n 0)
-          (spinToSpecialOrthogonal (realCliffordForm n 0) x))
-      exact h
     exact hprojection.comp
       (realCliffordSpinContinuousMulEquivUnitsRange n).symm.continuous
 

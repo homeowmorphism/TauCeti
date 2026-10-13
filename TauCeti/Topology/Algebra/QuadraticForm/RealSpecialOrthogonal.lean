@@ -48,14 +48,10 @@ namespace QuadraticMap
 
 noncomputable section
 
-section ClassicalDecEq
-
-attribute [local instance] Classical.decEq
-
 /-- The coordinate equivalence from real special-orthogonal matrices to standard
 determinant-one sum-of-squares isometries is continuous. -/
 theorem continuous_matrixSpecialOrthogonalEquivWeightedSumSquaresOne
-    (ι : Type u) [Fintype ι] :
+    (ι : Type u) [Fintype ι] [DecidableEq ι] :
     Continuous (matrixSpecialOrthogonalEquivWeightedSumSquaresOne ι) := by
   rw [(isEmbedding_specialOrthogonalToGeneralLinear
     (_root_.QuadraticMap.weightedSumSquares ℝ (1 : ι → ℝ))).continuous_iff]
@@ -73,7 +69,7 @@ theorem continuous_matrixSpecialOrthogonalEquivWeightedSumSquaresOne
 /-- The inverse coordinate equivalence from determinant-one sum-of-squares isometries to
 real special-orthogonal matrices is continuous. -/
 theorem continuous_matrixSpecialOrthogonalEquivWeightedSumSquaresOne_symm
-    (ι : Type u) [Fintype ι] :
+    (ι : Type u) [Fintype ι] [DecidableEq ι] :
     Continuous (matrixSpecialOrthogonalEquivWeightedSumSquaresOne ι).symm :=
   Continuous.continuous_symm_of_equiv_compact_to_t2
     (f := (matrixSpecialOrthogonalEquivWeightedSumSquaresOne ι).toEquiv)
@@ -84,6 +80,7 @@ instance instCompactSpaceRealSpecialOrthogonalGroupWeightedSumSquaresOne
     (ι : Type u) [Fintype ι] :
     CompactSpace (specialOrthogonalGroup
       (_root_.QuadraticMap.weightedSumSquares ℝ (1 : ι → ℝ))) := by
+  classical
   exact (matrixSpecialOrthogonalEquivWeightedSumSquaresOne ι).surjective.compactSpace
     (continuous_matrixSpecialOrthogonalEquivWeightedSumSquaresOne ι)
 
@@ -92,8 +89,6 @@ instance instCompactSpaceSpecialOrthogonalGroupRealCliffordForm (n : ℕ) :
   CompactSpace (specialOrthogonalGroup (realCliffordForm n 0)) := by
   rw [realCliffordForm_zero_eq_weightedSumSquares_one]
   exact instCompactSpaceRealSpecialOrthogonalGroupWeightedSumSquaresOne (Fin n)
-
-end ClassicalDecEq
 
 /-- Membership in the positive-definite `realCliffordForm n 0` special-orthogonal carrier is matrix
 special-orthogonal membership. -/
