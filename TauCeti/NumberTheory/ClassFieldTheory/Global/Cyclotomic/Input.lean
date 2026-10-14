@@ -48,7 +48,7 @@ namespace CharacterModule
 /-- If `q > 1` and `N > 0`, there is a character of `(ZMod (q ^ N - 1))ˣ` taking the class of
 `q` to `1 / N`. -/
 theorem exists_apply_unitOfCoprime_pow_sub_one (q N : ℕ) (hq : 1 < q) (hN : N ≠ 0) :
-    ∃ χ : CharacterModule (Additive (ZMod (q ^ N - 1))ˣ),
+    ∃ χ : Additive (ZMod (q ^ N - 1))ˣ →+ AddCircle (1 : ℚ),
       χ (.ofMul (ZMod.unitOfCoprime q (Nat.coprime_pow_sub_one q N hq hN))) =
         ((1 / N : ℚ) : AddCircle (1 : ℚ)) := by
   let u := ZMod.unitOfCoprime q (Nat.coprime_pow_sub_one q N hq hN)
@@ -83,13 +83,9 @@ theorem exists_character_autToPow_apply {K E : Type*} [CommRing K] [CommRing E] 
     omega⟩
   obtain ⟨χ, hχ⟩ := TauCeti.CharacterModule.exists_apply_unitOfCoprime_pow_sub_one q N hq hN
   refine ⟨χ.comp (hζ.autToPow K).toAdditive, fun σ hσ ↦ ?_⟩
-  -- `χ : CharacterModule _` is a semireducible definition for an `→+`, so
-  -- `AddMonoidHom.comp_apply` cannot rewrite the composite (the term is ill-typed at instance
-  -- transparency); evaluate it definitionally instead.
-  change χ (.ofMul (hζ.autToPow K σ)) = _
   have haut : hζ.autToPow K σ =
       ZMod.unitOfCoprime q (Nat.coprime_pow_sub_one q N hq hN) :=
     Units.ext ((hζ.coe_autToPow_eq_natCast hσ.symm).trans (ZMod.coe_unitOfCoprime _ _).symm)
-  rw [haut, hχ]
+  simp [haut, hχ]
 
 end IsPrimitiveRoot

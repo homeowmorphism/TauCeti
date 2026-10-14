@@ -101,20 +101,20 @@ theorem CharacterModule.ofSpanSingleton_apply_self {A : Type*} [AddCommGroup A] 
 its additive order in `ℚ / ℤ`. -/
 theorem CharacterModule.exists_apply_eq_inv_addOrderOf {A : Type*} [AddCommGroup A] (a : A)
     (ha : addOrderOf a ≠ 0) :
-    ∃ χ : CharacterModule A,
+    ∃ χ : A →+ AddCircle (1 : ℚ),
       χ a = ((1 / addOrderOf a : ℚ) : AddCircle (1 : ℚ)) := by
   -- Extend the canonical character of the cyclic subgroup `ℤ ∙ a` using the injectivity of
   -- `ℚ / ℤ`.
   let i : (ℤ ∙ a) →ₗ[ℤ] A := Submodule.subtype _
   obtain ⟨χ, hχ⟩ := CharacterModule.dual_surjective_of_injective i
     (Submodule.injective_subtype _) (CharacterModule.ofSpanSingleton a)
-  refine ⟨χ, ?_⟩
   have hχa := DFunLike.congr_fun hχ ⟨a, Submodule.mem_span_singleton_self a⟩
   -- `CharacterModule.dual i χ` is `χ.comp i` only up to the semireducible definition of
   -- `CharacterModule`, so `CharacterModule.dual_apply` followed by `AddMonoidHom.comp_apply`
   -- produces an ill-typed term that `rw` rejects; evaluate the restriction definitionally.
   change χ a = CharacterModule.ofSpanSingleton a
     ⟨a, Submodule.mem_span_singleton_self a⟩ at hχa
-  rw [hχa, ofSpanSingleton_apply_self a ha]
+  -- The same definition identifies `χ : CharacterModule A` with the stated `A →+ AddCircle 1`.
+  exact ⟨χ, hχa.trans (ofSpanSingleton_apply_self a ha)⟩
 
 end TauCeti

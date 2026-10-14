@@ -46,8 +46,7 @@ theorem exists_character_units_two_pow (n : ℕ) :
   have hu : addOrderOf (Additive.ofMul u) = 2 ^ (n + 1) := by
     rw [addOrderOf_ofMul_eq_orderOf, ← orderOf_units]
     exact ZMod.orderOf_five (n + 1)
-  obtain ⟨χ₀, hχ₀⟩ : ∃ χ : Additive (ZMod (2 ^ (n + 3)))ˣ →+ AddCircle (1 : ℚ),
-      χ (Additive.ofMul u) = ((1 / addOrderOf (Additive.ofMul u) : ℚ) : AddCircle (1 : ℚ)) :=
+  obtain ⟨χ₀, hχ₀⟩ :=
     exists_apply_eq_inv_addOrderOf (Additive.ofMul u) (hu.trans_ne (by positivity))
   have hχ₀ : χ₀ (Additive.ofMul u) = ((1 / 2 ^ (n + 1) : ℚ) : AddCircle (1 : ℚ)) := by
     simpa only [hu, Nat.cast_pow, Nat.cast_ofNat] using hχ₀
@@ -55,9 +54,7 @@ theorem exists_character_units_two_pow (n : ℕ) :
   have hneg : addOrderOf (Additive.ofMul (-1 : (ZMod 4)ˣ)) = 2 := by
     rw [addOrderOf_ofMul_eq_orderOf]
     exact orderOf_eq_prime (by simp) (by decide)
-  obtain ⟨δ, hδ⟩ : ∃ δ : Additive (ZMod 4)ˣ →+ AddCircle (1 : ℚ),
-      δ (Additive.ofMul (-1)) =
-        ((1 / addOrderOf (Additive.ofMul (-1 : (ZMod 4)ˣ)) : ℚ) : AddCircle (1 : ℚ)) :=
+  obtain ⟨δ, hδ⟩ :=
     exists_apply_eq_inv_addOrderOf (Additive.ofMul (-1 : (ZMod 4)ˣ)) (hneg.trans_ne (by decide))
   have hδ : δ (Additive.ofMul (-1)) = ((1 / 2 : ℚ) : AddCircle (1 : ℚ)) := by
     simpa only [hneg, Nat.cast_ofNat] using hδ

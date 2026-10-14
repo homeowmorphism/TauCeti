@@ -187,10 +187,7 @@ private theorem exists_sumLocalInv_ideleLocalization_eq_aux {E : Ω}
     have hu : hζ.autToPow K g.toMul = 1 := (hζ.autToPow_eq_one_iff g.toMul).2 <|
       (IntermediateField.mem_fixingSubgroup_iff _ _).1 hg ζ
         (IntermediateField.mem_adjoin_simple_self K ζ)
-    -- `ψ : CharacterModule _` is a semireducible `→+`, so `AddMonoidHom.comp_apply` cannot
-    -- rewrite the composite `χ`; evaluate it definitionally.
-    change ψ (.ofMul (hζ.autToPow K g.toMul)) = 0
-    rw [hu, ofMul_one, map_zero]
+    simp [χ, hu]
   -- An embedding `τ : Kˢ → K_vˢ` along which the idele has coordinate `π` at `v`.
   -- `cases` rather than `obtain`, which exceeds the heartbeat budget here (as does stating this
   -- for the subextension `⊥` itself rather than a variable `E = ⊥`).
