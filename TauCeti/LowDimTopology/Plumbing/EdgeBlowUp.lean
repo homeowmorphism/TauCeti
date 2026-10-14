@@ -587,10 +587,8 @@ theorem intersectionForm_blowUpEdgeEquiv (u v : V) (h : P.toSimpleGraph.Adj u v)
         x w * (P.intersectionMatrix *ᵥ y) w + (if w = u ∨ w = v then x w * t else 0) := by
     intro w
     split_ifs <;> ring
-  rw [(P.blowUpEdge u v h).intersectionForm_apply,
-    ← Matrix.toBilin'_apply (P.blowUpEdge u v h).intersectionMatrix, Matrix.toBilin'_apply',
-    P.intersectionForm_apply, ← Matrix.toBilin'_apply P.intersectionMatrix x y,
-    Matrix.toBilin'_apply', hdotOpt, hdotV, Fintype.sum_option]
+  rw [intersectionForm_def, intersectionForm_def, Matrix.toBilin'_apply', Matrix.toBilin'_apply',
+    hdotOpt, hdotV, Fintype.sum_option]
   simp only [blowUpEdgeEquiv_apply_none, blowUpEdgeEquiv_apply_some,
     P.blowUpEdge_mulVec_apply_none u v h y t, P.blowUpEdge_mulVec_apply_some u v h y t, hterm]
   rw [Finset.sum_add_distrib, sum_ite_or_eq u v h.ne fun w => x w * t]

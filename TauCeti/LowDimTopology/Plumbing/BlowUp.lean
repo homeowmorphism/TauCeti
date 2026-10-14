@@ -555,10 +555,8 @@ theorem intersectionForm_blowUpVertexEquiv (x y : V → ℤ) (s t : ℤ) :
         x w * (P.intersectionMatrix *ᵥ y) w + (if w = v then x w * t else 0) := by
     intro w
     split_ifs <;> ring
-  rw [(P.blowUpVertex v).intersectionForm_apply,
-    ← Matrix.toBilin'_apply (P.blowUpVertex v).intersectionMatrix, Matrix.toBilin'_apply',
-    P.intersectionForm_apply, ← Matrix.toBilin'_apply P.intersectionMatrix x y,
-    Matrix.toBilin'_apply', hdotOpt, hdotV, Fintype.sum_option]
+  rw [intersectionForm_def, intersectionForm_def, Matrix.toBilin'_apply', Matrix.toBilin'_apply',
+    hdotOpt, hdotV, Fintype.sum_option]
   simp only [blowUpVertexEquiv_apply_none, blowUpVertexEquiv_apply_some,
     P.blowUpVertex_mulVec_apply_none v y t, P.blowUpVertex_mulVec_apply_some v y t, hterm]
   rw [Finset.sum_add_distrib, Finset.sum_ite_eq' Finset.univ v fun w => x w * t]

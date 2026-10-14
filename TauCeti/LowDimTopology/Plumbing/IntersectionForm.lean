@@ -47,6 +47,8 @@ of Seifert-fibred examples), with edge multiplicities a later refinement.
 * `TauCeti.PlumbingGraph.intersectionMatrix_diag` and
   `TauCeti.PlumbingGraph.intersectionMatrix_apply_of_ne`: the diagonal entry is the framing and
   an off-diagonal entry is the adjacency indicator.
+* `TauCeti.PlumbingGraph.intersectionForm_def`: the intersection form is `Matrix.toBilin'` of the
+  intersection matrix.
 * `TauCeti.PlumbingGraph.intersectionMatrix_isSymm`,
   `TauCeti.PlumbingGraph.intersectionForm_isSymm`: the intersection form is symmetric.
 * `TauCeti.PlumbingGraph.intersectionForm_apply_weight_add_adj`: the bilinear form expanded
@@ -170,6 +172,11 @@ variable [Fintype V]
 matrix `intersectionMatrix`. -/
 noncomputable def intersectionForm : LinearMap.BilinForm ℤ (V → ℤ) :=
   Matrix.toBilin' P.intersectionMatrix
+
+/-- The intersection form is `Matrix.toBilin'` of the intersection matrix, so the `Matrix.toBilin'`
+API applies to it. -/
+theorem intersectionForm_def : P.intersectionForm = Matrix.toBilin' P.intersectionMatrix :=
+  (rfl)
 
 /-- The intersection form expanded as a double sum over the intersection matrix entries. -/
 theorem intersectionForm_apply (x y : V → ℤ) :

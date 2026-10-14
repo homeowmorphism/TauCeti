@@ -85,8 +85,7 @@ theorem IsNegativeDefinite.intersectionForm_self_neg (h : P.IsNegativeDefinite) 
     (hx : x ≠ 0) : P.intersectionForm x x < 0 := by
   have hpos := Matrix.PosDef.dotProduct_mulVec_pos (P.isNegativeDefinite_iff.mp h) hx
   rw [Matrix.neg_mulVec, dotProduct_neg, star_trivial] at hpos
-  rw [P.intersectionForm_apply]
-  rw [← Matrix.toBilin'_apply' P.intersectionMatrix x x, Matrix.toBilin'_apply] at hpos
+  rw [intersectionForm_def, Matrix.toBilin'_apply']
   linarith
 
 /-- A plumbing is negative definite exactly when its intersection-form self-pairing is strictly
@@ -98,8 +97,8 @@ theorem isNegativeDefinite_iff_forall_intersectionForm_self_neg :
   rw [isNegativeDefinite_iff, Matrix.posDef_iff_dotProduct_mulVec]
   refine ⟨(Matrix.isHermitian_iff_isSymm.mpr P.intersectionMatrix_isSymm).neg, fun x hx => ?_⟩
   have hconv : star x ⬝ᵥ ((-P.intersectionMatrix) *ᵥ x) = -P.intersectionForm x x := by
-    rw [Matrix.neg_mulVec, dotProduct_neg, star_trivial, P.intersectionForm_apply,
-      ← Matrix.toBilin'_apply P.intersectionMatrix x x, Matrix.toBilin'_apply']
+    rw [Matrix.neg_mulVec, dotProduct_neg, star_trivial, intersectionForm_def,
+      Matrix.toBilin'_apply']
   rw [hconv]
   linarith [h x hx]
 
@@ -150,23 +149,16 @@ theorem IsNegativeDefinite.mulVec_injective (h : P.IsNegativeDefinite) :
   have hz : P.intersectionMatrix *ᵥ (x - y) = 0 := by
     rw [Matrix.mulVec_sub, hxy', sub_self]
   have hzero : P.intersectionForm (x - y) (x - y) = 0 := by
-    rw [P.intersectionForm_apply, ← Matrix.toBilin'_apply P.intersectionMatrix (x - y) (x - y),
-      Matrix.toBilin'_apply', hz]
+    rw [intersectionForm_def, Matrix.toBilin'_apply', hz]
     simp
   exact sub_eq_zero.mp ((h.intersectionForm_self_eq_zero_iff (x - y)).mp hzero)
 
 /-- The intersection matrix of a negative-definite plumbing has nonzero determinant: it kills no
 nonzero lattice vector. -/
 theorem IsNegativeDefinite.det_intersectionMatrix_ne_zero (h : P.IsNegativeDefinite) :
-    P.intersectionMatrix.det ≠ 0 := by
-  refine LinearMap.BilinForm.nondegenerate_toBilin'_iff_det_ne_zero.mp ?_
-  -- `intersectionForm` is `Matrix.toBilin'` of the intersection matrix, but its body is not
-  -- exposed outside `IntersectionForm.lean`, so the two forms are identified on values
-  have hbil : Matrix.toBilin' P.intersectionMatrix = P.intersectionForm :=
-    LinearMap.ext fun x => LinearMap.ext fun y => by
-      rw [Matrix.toBilin'_apply, P.intersectionForm_apply]
-  rw [hbil]
-  exact h.intersectionForm_nondegenerate
+    P.intersectionMatrix.det ≠ 0 :=
+  LinearMap.BilinForm.nondegenerate_toBilin'_iff_det_ne_zero.mp
+    (P.intersectionForm_def ▸ h.intersectionForm_nondegenerate)
 
 /-- Cauchy--Schwarz for the intersection form: on a plumbing whose self-pairing is everywhere
 nonpositive, the square of a pairing is at most the product of the two self-pairings.
