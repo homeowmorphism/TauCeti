@@ -33,10 +33,13 @@ namespace SimpleGraph
 variable {V M : Type*} [Fintype V] [DecidableEq V] [AddCommMonoid M]
 
 /-- Summing a function of the edge finset over the graphs between `F` and `H` is summing it over
-the edge finsets between theirs. -/
+the edge finsets between theirs. The endpoints `F` and `H` take their own `Fintype` instances, so
+the interval bounds match whatever instances the caller's `F.edgeFinset` and `H.edgeFinset` carry,
+such as the one `(⊤ : SimpleGraph V).edgeFinset` gets from `SimpleGraph.Top.adjDecidable`. -/
 theorem sum_filter_le_le_eq_sum_Icc_edgeFinset (F H : SimpleGraph V)
     [DecidablePred fun G : SimpleGraph V => F ≤ G ∧ G ≤ H]
-    [∀ G : SimpleGraph V, Fintype G.edgeSet] (f : Finset (Sym2 V) → M) :
+    [∀ G : SimpleGraph V, Fintype G.edgeSet] [Fintype F.edgeSet] [Fintype H.edgeSet]
+    (f : Finset (Sym2 V) → M) :
     ∑ G with F ≤ G ∧ G ≤ H, f G.edgeFinset = ∑ s ∈ Icc F.edgeFinset H.edgeFinset, f s := by
   -- An edge set below `H.edgeFinset` carries no diagonal pair, so it is the edge set of a graph.
   have hset : ∀ s ∈ Icc F.edgeFinset H.edgeFinset,

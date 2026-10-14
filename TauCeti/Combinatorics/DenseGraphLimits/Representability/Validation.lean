@@ -116,12 +116,8 @@ theorem graphParamMobius_edgePow (c : ℝ) (n : ℕ) (F : SimpleGraph (Fin n)) :
   -- The supergraphs of `F` are the graphs between `F` and `⊤`, read through their edge sets.
   have hfilter : univ.filter (fun G : SimpleGraph (Fin n) ↦ F ≤ G) =
       univ.filter fun G ↦ F ≤ G ∧ G ≤ ⊤ := filter_congr fun G _ ↦ by simp
-  rw [hfilter]
-  trans ∑ s ∈ Icc F.edgeFinset (⊤ : SimpleGraph (Fin n)).edgeFinset,
-    c ^ #s * (1 - c) ^ (#(⊤ : SimpleGraph (Fin n)).edgeFinset - #s)
-  · -- The two sides carry different decidability instances for the filter.
-    convert SimpleGraph.sum_filter_le_le_eq_sum_Icc_edgeFinset F ⊤
-      fun s ↦ c ^ #s * (1 - c) ^ (#(⊤ : SimpleGraph (Fin n)).edgeFinset - #s)
+  rw [hfilter, SimpleGraph.sum_filter_le_le_eq_sum_Icc_edgeFinset F ⊤
+    fun s ↦ c ^ #s * (1 - c) ^ (#(⊤ : SimpleGraph (Fin n)).edgeFinset - #s)]
   -- An edge set between `F` and `⊤` is `F`'s together with a subset of the missing edges.
   have hAB : F.edgeFinset ⊆ (⊤ : SimpleGraph (Fin n)).edgeFinset :=
     SimpleGraph.edgeFinset_mono le_top
