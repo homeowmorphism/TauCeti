@@ -254,10 +254,7 @@ section Quotient
 
 open Finset
 
-variable [Fintype α]
-
-/-- Local decidable equality for computing fiber cardinalities without an API constraint. -/
-noncomputable local instance instDecidableEqFiberColour : DecidableEq ι := Classical.decEq ι
+variable [Fintype α] [DecidableEq ι]
 
 /-- **The cosets of the fiber subgroup of `f` are the rearrangements of `f`.**  The coset of `g`
 in `Equiv.Perm α ⧸ fiberSubgroup f` is sent to the map `f ∘ g⁻¹`
@@ -321,11 +318,10 @@ theorem smul_eq_self_iff_quotientFiberSubgroupEquiv (f : α → ι) (π : Equiv.
 of the fiber subgroup of `f` fixed by `π` is the number of maps `c : α → ι` with fibers of the same
 sizes as those of `f` and with `c ∘ π = c`.  For the rows of a tabloid this is the value at `π` of
 the permutation character on the tabloids. -/
-theorem card_fixedPoints_quotient_fiberSubgroup [Fintype ι] (f : α → ι)
+theorem card_fixedPoints_quotient_fiberSubgroup [DecidableEq α] [Fintype ι] (f : α → ι)
     (π : Equiv.Perm α) :
     Nat.card {q : Equiv.Perm α ⧸ fiberSubgroup f // π • q = q} =
       #{c : α → ι | c ∘ π = c ∧ ∀ i, #{a | c a = i} = #{a | f a = i}} := by
-  classical
   rw [← Fintype.card_subtype, ← Nat.card_eq_fintype_card]
   refine Nat.card_congr (((quotientFiberSubgroupEquiv f).subtypeEquiv
     (q := fun c : {c : α → ι // ∀ i, #{a | c a = i} = #{a | f a = i}} => c.1 ∘ π = c.1)
@@ -402,8 +398,6 @@ theorem sum_natCard_fiberSubgroup_smul [DecidableEq α] {M : Type*} [AddCommMono
     rw [hc_def, funext_iff]
     refine forall_congr' fun i => ?_
     rw [← hf₀ i]
-    -- the two sides differ only in the instance deciding equality of colours
-    convert Iff.rfl
   rw [hq, ← Subgroup.card_eq_card_quotient_mul_card_subgroup, Nat.card_eq_fintype_card,
     Fintype.card_perm]
 

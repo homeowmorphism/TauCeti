@@ -138,7 +138,6 @@ theorem coeff_partWeight_psumPart_partition (π : Perm (Fin n)) (ν : n.Partitio
   rw [coeff_psumPart_partition, ← fiberSubgroup_youngColouring ν hν,
     card_fixedPoints_quotient_fiberSubgroup]
   congr 3
-  case e_s => ext x; simp
   ext f
   exact and_congr_right' (forall_congr' fun i => by rw [card_filter_youngColouring ν hν i])
 
@@ -156,8 +155,6 @@ theorem sum_card_fixedPoints_smul_psumPart_partition [DecidableEq σ] (ν : n.Pa
   rw [show n.factorial = (Fintype.card (Fin n)).factorial by rw [Fintype.card_fin]]
   convert key using 3 with π
   · rw [youngSubgroup_eq_fiberSubgroup, card_fixedPoints_quotient_fiberSubgroup]
-    -- the two counts differ only in the instance deciding equality of rows
-    convert rfl
   · -- the rows of `ν` have the sizes of its parts
     rw [hsymmPart]
     conv_lhs => rw [← Multiset.sort_eq ν.parts (· ≥ ·)]

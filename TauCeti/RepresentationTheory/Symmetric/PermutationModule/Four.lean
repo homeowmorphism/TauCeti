@@ -123,11 +123,8 @@ theorem character_indFDRep_trivial_parts_two_two {k : Type*} [Field k]
         intro j
         fin_cases j <;> decide
   convert congrArg (fun n : ℕ => (n : k)) (hc j) using 1
-  · -- The counting theorem uses classical decisions; the finite check uses computable ones.
-    congr 1
-    congr 1
-    ext c
-    congr!
+  · -- `hc` spells the index type of the vector literal as `Fin (succ 3)` rather than `Fin 4`.
+    rfl
   · fin_cases j <;> norm_num [Fin.cast, Matrix.cons_val]
 
 /-- The induced trivial character of the Young subgroup of shape `(2,1,1)` has values
@@ -146,11 +143,8 @@ theorem character_indFDRep_trivial_parts_two_one_one {k : Type*} [Field k]
         intro j
         fin_cases j <;> decide
   convert congrArg (fun n : ℕ => (n : k)) (hc j) using 1
-  · -- The counting theorem uses classical decisions; the finite check uses computable ones.
-    congr 1
-    congr 1
-    ext c
-    congr!
+  · -- `hc` spells the index type of the vector literal as `Fin (succ 3)` rather than `Fin 4`.
+    rfl
   · fin_cases j <;> norm_num [Fin.cast, Matrix.cons_val]
 
 /-- The `(2,2)` induced character is the sum of the trivial, degree-two, and standard
