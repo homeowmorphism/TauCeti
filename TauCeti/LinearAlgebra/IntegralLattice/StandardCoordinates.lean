@@ -56,9 +56,7 @@ variable {ι : Type*} [Fintype ι] (G : Matrix ι ι ℤ) (hG : G.IsSymm)
 theorem form_ofGramMatrix_basisFun_apply (x y : ι → ℚ) :
     (ofGramMatrix (Pi.basisFun ℚ ι) G hG).form x y =
       ∑ i, x i * ∑ j, ((G i j : ℤ) : ℚ) * y j := by
-  -- `ofGramMatrix` and its `form` lemma are stated with classical decidability, so the
-  -- `Matrix.toBilin` rewrite has to elaborate against the same instance.
-  let _ : DecidableEq ι := Classical.decEq _
+  classical
   rw [ofGramMatrix_form, Matrix.toBilin_apply]
   simp only [Pi.basisFun_repr, Matrix.map_apply, algebraMap_int_eq, eq_intCast]
   refine Finset.sum_congr rfl fun i _ ↦ ?_

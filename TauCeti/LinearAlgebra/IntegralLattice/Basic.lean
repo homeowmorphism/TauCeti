@@ -280,10 +280,11 @@ open Classical in
 theorem ofGramMatrix_carrier (b : Basis ι ℚ V) (G : Matrix ι ι ℤ) (hG : G.IsSymm) :
     (ofGramMatrix b G hG).carrier = Submodule.span ℤ (Set.range b) := (rfl)
 
-open Classical in
 @[simp]
-theorem ofGramMatrix_form (b : Basis ι ℚ V) (G : Matrix ι ι ℤ) (hG : G.IsSymm) :
-    (ofGramMatrix b G hG).form = Matrix.toBilin b (G.map (algebraMap ℤ ℚ)) := (rfl)
+theorem ofGramMatrix_form [DecidableEq ι] (b : Basis ι ℚ V) (G : Matrix ι ι ℤ) (hG : G.IsSymm) :
+    (ofGramMatrix b G hG).form = Matrix.toBilin b (G.map (algebraMap ℤ ℚ)) := by
+  rw [ofGramMatrix, ofBasis_form]
+  convert rfl
 
 open Classical in
 /-- The canonical carrier basis of `ofGramMatrix b G hG` induced by `b`. -/

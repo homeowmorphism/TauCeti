@@ -147,7 +147,6 @@ theorem unitNormSplittingIsometry_symm_apply_fst (hx : IsUnit (L.integralForm x 
     (y : V) :
     ((L.unitNormSplittingIsometry x hx).symm y).1 =
       L.form (x : V) y / (L.integralForm x x : ℚ) := by
-  let _ : DecidableEq (Fin 1) := Classical.decEq _
   have h := (L.unitNormSplittingIsometry x hx).map_app (1, 0)
     ((L.unitNormSplittingIsometry x hx).symm y)
   have hx0 : (L.integralForm x x : ℚ) ≠ 0 := Int.cast_ne_zero.mpr hx.ne_zero

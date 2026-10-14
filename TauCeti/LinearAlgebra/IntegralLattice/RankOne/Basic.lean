@@ -56,7 +56,6 @@ theorem mem_rankOne_carrier_iff (a : ℤ) (x : ℚ) :
 /-- The bilinear form of `⟨a⟩` is `axy`. -/
 @[simp]
 theorem rankOne_form_apply (a : ℤ) (x y : ℚ) : (rankOne a).form x y = a * x * y := by
-  let _ : DecidableEq (Fin 1) := Classical.decEq _
   rw [rankOne, ofGramMatrix_form, Matrix.toBilin_apply]
   simp only [Fin.sum_univ_one, Basis.singleton_repr, Matrix.map_apply, rankOneMatrix,
     eq_intCast]

@@ -130,9 +130,6 @@ private theorem typeASimpleRoot_eq_basisFun (i : Fin n) :
 theorem typeARootLattice_form_apply (x y : Fin n → ℚ) :
     (typeARootLattice n).form x y =
       ∑ i, ∑ j, x i * ((CartanMatrix.A n i j : ℤ) : ℚ) * y j := by
-  -- `ofGramMatrix` and its `form` lemma are stated with classical decidability, so the
-  -- `Matrix.toBilin` rewrite has to elaborate against the same instance.
-  let _ : DecidableEq (Fin n) := Classical.decEq _
   rw [typeARootLattice, ofGramMatrix_form, Matrix.toBilin_apply]
   simp [Pi.basisFun_repr]
 

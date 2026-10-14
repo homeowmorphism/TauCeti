@@ -154,7 +154,6 @@ theorem mem_affineA1_carrier_iff (x : Fin 2 → ℚ) :
 /-- The `A₁` form evaluates as twice the product of its two inputs. -/
 @[simp]
 theorem a1_form_apply (x y : ℚ) : a1.form x y = 2 * x * y := by
-  let _ : DecidableEq (Fin 1) := Classical.decEq _
   rw [a1]
   rw [ofGramMatrix_form]
   rw [Matrix.toBilin_apply]
@@ -165,7 +164,6 @@ theorem a1_form_apply (x y : ℚ) : a1.form x y = 2 * x * y := by
 /-- The negative `A₁` form evaluates as negative twice the product of its two inputs. -/
 @[simp]
 theorem negativeA1_form_apply (x y : ℚ) : negativeA1.form x y = -2 * x * y := by
-  let _ : DecidableEq (Fin 1) := Classical.decEq _
   rw [negativeA1]
   rw [ofGramMatrix_form]
   rw [Matrix.toBilin_apply]
@@ -177,7 +175,6 @@ theorem negativeA1_form_apply (x y : ℚ) : negativeA1.form x y = -2 * x * y := 
 @[simp]
 theorem hyperbolicPlane_form_apply (x y : Fin 2 → ℚ) :
     hyperbolicPlane.form x y = x 0 * y 1 + x 1 * y 0 := by
-  let _ : DecidableEq (Fin 2) := Classical.decEq _
   rw [hyperbolicPlane]
   rw [ofGramMatrix_form]
   rw [Matrix.toBilin_apply]
@@ -187,7 +184,6 @@ theorem hyperbolicPlane_form_apply (x y : Fin 2 → ℚ) :
 @[simp]
 theorem affineA1_form_apply (x y : Fin 2 → ℚ) :
     affineA1.form x y = 2 * (x 0 - x 1) * (y 0 - y 1) := by
-  let _ : DecidableEq (Fin 2) := Classical.decEq _
   rw [affineA1]
   rw [ofGramMatrix_form]
   rw [Matrix.toBilin_apply]
